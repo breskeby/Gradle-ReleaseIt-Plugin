@@ -1,0 +1,57 @@
+buildscript{
+	repositories{
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies{
+		classpath "com.breskeby.gradle:ReleaseIt:1.0-SNAPSHOT"
+	}
+}
+
+apply plugin:'ReleaseIt'
+
+import com.breskeby.gradle.releaseit.svn.*
+import com.breskeby.gradle.releaseit.tasks.VersionIncrement
+
+task branchProj1(type: SvnBranch){
+	rootUrl = "svn://10.37.129.3/svn/test/proj1"
+	branch = "branches/1.2.3"
+}
+
+task branchProj2(type: SvnBranch){
+	rootUrl = "svn://10.37.129.3/svn/test/proj2"
+	branch = "branches/2.3.4"
+}
+
+task branchProj3(type: SvnBranch){
+	rootUrl = "svn://10.37.129.3/svn/test/proj3"
+	targetBranch = "branches/3.4.5"
+}
+
+tasks.withType(SvnTask){
+	branch = "trunk"
+	userName = "harry"
+	userPassword = "harryssecret"
+}
+
+task branchAll{
+	dependsOn branchProj1, branchProj2, branchProj3
+}
+
+task checkoutProj1(type: SvnCheckout){
+	rootUrl = "svn://10.37.129.3/svn/test/proj1"
+	localWorkspace = file("build/proj1workspace")
+}
+
+task incrementProj1Version(type: VersionIncrement){
+	dependsOn checkoutProj1
+	propertyFile = new File(file("build/proj1workspace/trunk"), "gradle.properties")
+	versionProperty = "version"
+	incrementPattern = "0.0.1" // major & minor has same value, bugfix increment
+}
+
+task commitProj1(type: SvnCheckout){
+	rootUrl = "svn://10.37.129.3/svn/test/proj1"
+	localWorkspace = file("build/proj1workspace")
+}
+
