@@ -39,7 +39,7 @@ public class VersionIncrement extends DefaultTask{
 		}
 	}
 
-	String applyPattern(String value, String pattern){
+	 String applyPattern(String value, String pattern){
 		def versionMatcher = value =~ /\d/
 		def applyPatternMatcher = pattern =~ /\d/
 
@@ -49,7 +49,7 @@ public class VersionIncrement extends DefaultTask{
 		versionMatcher.eachWithIndex{fragm, idx ->
 			oldVersionList[idx] = Integer.parseInt(fragm)
 		}
-		applyPatternSize = applyPatternMatcher.size()
+		def applyPatternSize = applyPatternMatcher.size()
 		def newVersion = new StringBuilder()
 
 		applyPatternMatcher.eachWithIndex{ mat, idx->
@@ -60,6 +60,12 @@ public class VersionIncrement extends DefaultTask{
 			if(applyPatternSize>idx+1){
 				newVersion << "."
 			}
+		}
+
+		//add eventually existing appendix in pattern
+		def patternAppendixStartIndex = pattern.indexOf("-");
+		if(patternAppendixStartIndex!=-1){
+			newVersion.append(pattern.substring(patternAppendixStartIndex))
 		}
 		newVersion.toString()
 	}

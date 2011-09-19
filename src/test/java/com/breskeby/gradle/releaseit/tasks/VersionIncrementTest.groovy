@@ -42,4 +42,10 @@ public class VersionIncrementTest {
 		assert "2.0.1" == cut.applyPattern("1.0.0-ALPHA", "1.0.1");
 		assert "2.1.1" == cut.applyPattern("1.0.0-BLINGBLING", "1.1.1");
 	}
+	
+	@Test public void testAppendixOfPatternIsMerged(){
+		assert "1.1.0-SNAPSHOT" == cut.applyPattern("1.0.0", "0.1.0-SNAPSHOT");
+		assert "1.0.0-SNAPSHOT" == cut.applyPattern("1.0.0-BETA", "0.0.0-SNAPSHOT");
+		assert "1.0.0-SNAPSHOT" == cut.applyPattern("1.0.0-SNAPSHOT", "0.0.0-SNAPSHOT");		
+	}
 }
