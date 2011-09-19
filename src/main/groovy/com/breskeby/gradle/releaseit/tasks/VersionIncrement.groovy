@@ -39,7 +39,7 @@ public class VersionIncrement extends DefaultTask{
 		}
 	}
 
-	private String applyPattern(String value, String pattern){
+	String applyPattern(String value, String pattern){
 		def versionMatcher = value =~ /\d/
 		def applyPatternMatcher = pattern =~ /\d/
 
