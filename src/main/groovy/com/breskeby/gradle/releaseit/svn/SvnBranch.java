@@ -14,23 +14,23 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
 
 public class SvnBranch extends SvnTask{
 
-	String sourceBranch;
-	String targetBranch;
+	String source;
+	String target;
 	
-	public String getSourceBranch() {
-		return sourceBranch;
+	public String getSource() {
+		return source;
 	}
 
-	public void setSourceBranch(String sourceBranch) {
-		this.sourceBranch = sourceBranch;
+	public void setSource(String source) {
+		this.source = source;
 	}
 
-	public String getTargetBranch() {
-		return targetBranch;
+	public String getTarget() {
+		return target;
 	}
 
-	public void setTargetBranch(String targetBranch) {
-		this.targetBranch = targetBranch;
+	public void setTarget(String target) {
+		this.target = target;
 	}
 
 	@TaskAction
@@ -40,12 +40,12 @@ public class SvnBranch extends SvnTask{
 			ISVNAuthenticationManager authManager = new BasicAuthenticationManager( userName , userPassword );
 			SVNClientManager clientManager = SVNClientManager.newInstance(null, authManager);
 		    SVNCopyClient client = clientManager.getCopyClient();
-		    SVNURL srcURL = SVNURL.parseURIEncoded(rootUrl + "/" + sourceBranch); 
-		    SVNURL dstURL = SVNURL.parseURIEncoded(rootUrl + "/" + targetBranch);
+		    SVNURL srcURL = SVNURL.parseURIEncoded(rootUrl + "/" + source); 
+		    SVNURL dstURL = SVNURL.parseURIEncoded(rootUrl + "/" + target);
 		    
 		    SVNCopySource copySource = new SVNCopySource(SVNRevision.HEAD, SVNRevision.HEAD, srcURL); 
 		    client.doCopy(new SVNCopySource[] {copySource}, dstURL, 
-		    		        false, false, true, "branching from [ " + sourceBranch + " ] to [ " + targetBranch +" ]", null); 
+		    		        false, false, true, "branching from [ " + source+ " ] to [ " + target +" ]", null); 
 		} catch (SVNException e) {
 			throw(new BuildException(e.getMessage(), e));
 		}

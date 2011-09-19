@@ -32,8 +32,8 @@ public class SvnBranchIntegrationTest {
 		
 		cut.setUserName("harry");
 		cut.setUserPassword("harryssecret");
-		cut.setSourceBranch("trunk");
-		cut.setTargetBranch(TEST_BRANCH_NAME);
+		cut.setSource("trunk");
+		cut.setTarget(TEST_BRANCH_NAME);
 	}
 
 	@Test public void testbranching(){		

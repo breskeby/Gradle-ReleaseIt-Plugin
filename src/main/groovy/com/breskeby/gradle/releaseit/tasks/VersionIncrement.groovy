@@ -5,6 +5,7 @@ import java.io.File;
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
 public class VersionIncrement extends DefaultTask{
@@ -13,6 +14,14 @@ public class VersionIncrement extends DefaultTask{
 	@Input String versionProperty
 	@Input String incrementPattern
 
+	public File getPropertyFile() {
+		return propertyFile;
+	}
+	
+	public void setPropertyFile(Object relativePathFromProjectRoot){
+		this.propertyFile = getProject().file(relativePathFromProjectRoot);
+	}
+	
 	@TaskAction void update(){
 		Properties props = new Properties()
 

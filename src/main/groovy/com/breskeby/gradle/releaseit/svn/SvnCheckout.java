@@ -16,17 +16,18 @@ import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 
 public class SvnCheckout extends SvnTask{
 
-	@OutputDirectory File localWorkspace;
-	
 	String branch = "trunk";
+	
+	@OutputDirectory File localWorkspace;
+
 	public File getLocalWorkspace() {
 		return localWorkspace;
 	}
-
-	public void setLocalWorkspace(File localWorkspace) {
-		this.localWorkspace = localWorkspace;
+	
+	public void setLocalWorkspace(Object relativePathFromProjectRoot){
+		this.localWorkspace = getProject().file(relativePathFromProjectRoot);
 	}
-
+	
 	@TaskAction
 	public void checkout(){
 		try {
@@ -34,8 +35,7 @@ public class SvnCheckout extends SvnTask{
 			SVNURL url = SVNURL.parseURIDecoded( rootUrl + "/" + branch);
 			ISVNAuthenticationManager authManager = new BasicAuthenticationManager( userName , userPassword );
 			SVNClientManager clientManager = SVNClientManager.newInstance(null, authManager); 
-			
-		    SVNUpdateClient client = clientManager.getUpdateClient();
+			SVNUpdateClient client = clientManager.getUpdateClient();
 		    client.doCheckout(url, new File(localWorkspace.getAbsolutePath(), branch), SVNRevision.UNDEFINED, SVNRevision.HEAD, SVNDepth.INFINITY, true);
 		} catch (SVNException e) {
 			e.printStackTrace();
