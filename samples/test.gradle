@@ -10,8 +10,10 @@ buildscript{
 
 apply plugin:'ReleaseIt'
 
+import org.gradle.api.tasks.Input;
 import com.breskeby.gradle.releaseit.svn.*
 import com.breskeby.gradle.releaseit.tasks.VersionIncrement
+
 
 task branchProj1(type: SvnBranch){
 	rootUrl = "svn://10.37.129.3/svn/test/proj1"
@@ -39,6 +41,7 @@ task branchAll{
 }
 
 task checkoutProj1(type: SvnCheckout){
+	branch = "trunk"
 	rootUrl = "svn://10.37.129.3/svn/test/proj1"
 	localWorkspace = "build/proj1workspace"
 }
@@ -46,7 +49,7 @@ task checkoutProj1(type: SvnCheckout){
 task incrementProj1Version(type: VersionIncrement){
 	dependsOn checkoutProj1
 	propertyFile = "build/proj1workspace/trunk/gradle.properties"
-	versionProperty = "version"
+	propertyNames << "version" << "an_version"
 	incrementPattern = "0.0.1" // major & minor has same value, bugfix increment
 }
 

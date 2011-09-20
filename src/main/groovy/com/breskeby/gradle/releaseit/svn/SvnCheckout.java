@@ -2,6 +2,7 @@ package com.breskeby.gradle.releaseit.svn;
 
 import java.io.File;
 
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 import org.tmatesoft.svn.core.SVNDepth;
@@ -16,9 +17,17 @@ import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 
 public class SvnCheckout extends SvnTask{
 
-	String branch = "trunk";
+	@Input private String branch;
+	@OutputDirectory private File localWorkspace;
 	
-	@OutputDirectory File localWorkspace;
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
 
 	public File getLocalWorkspace() {
 		return localWorkspace;
@@ -33,10 +42,11 @@ public class SvnCheckout extends SvnTask{
 		try {
 			SVNRepositoryFactoryImpl.setup();
 			SVNURL url = SVNURL.parseURIDecoded( rootUrl + "/" + branch);
+			
 			ISVNAuthenticationManager authManager = new BasicAuthenticationManager( userName , userPassword );
 			SVNClientManager clientManager = SVNClientManager.newInstance(null, authManager); 
 			SVNUpdateClient client = clientManager.getUpdateClient();
-		    client.doCheckout(url, new File(localWorkspace.getAbsolutePath(), branch), SVNRevision.UNDEFINED, SVNRevision.HEAD, SVNDepth.INFINITY, true);
+			client.doCheckout(url, new File(localWorkspace.getAbsolutePath(), branch), SVNRevision.UNDEFINED, SVNRevision.HEAD, SVNDepth.INFINITY, true);
 		} catch (SVNException e) {
 			e.printStackTrace();
 		}

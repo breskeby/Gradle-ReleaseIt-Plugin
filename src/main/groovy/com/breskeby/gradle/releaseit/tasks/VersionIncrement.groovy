@@ -11,9 +11,14 @@ import org.gradle.api.tasks.TaskAction;
 public class VersionIncrement extends DefaultTask{
 
 	@InputFile File propertyFile
-	@Input String versionProperty
+	@Input List propertyNames = []
+	
 	@Input String incrementPattern
 
+	public void setPropertyName(String propertyName){
+		propertyNames << propertyName
+	}
+	
 	public File getPropertyFile() {
 		return propertyFile;
 	}
@@ -31,9 +36,10 @@ public class VersionIncrement extends DefaultTask{
 		}
 
 		//set new value
-		def newValue = applyPattern(props[versionProperty], incrementPattern);
-
-		props.setProperty(versionProperty, newValue)
+		propertyNames.each{propName ->
+			def newValue = applyPattern(props[propName], incrementPattern);
+			props.setProperty(propName, newValue)
+		}
 		propertyFile.withOutputStream{ stream ->
 			props.store(stream, null)
 		}

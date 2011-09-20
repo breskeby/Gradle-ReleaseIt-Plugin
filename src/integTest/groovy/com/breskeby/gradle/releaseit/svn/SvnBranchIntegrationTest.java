@@ -27,7 +27,6 @@ public class SvnBranchIntegrationTest {
 	private String testRootURL;
 	
 	@Before public void createLocalProjectDirectory(){
-		cut = new SvnBranch();
 		testRootURL = "svn://10.37.129.3/svn/test/proj1";		
 		
 		cut.setUserName("harry");

@@ -7,8 +7,7 @@ version = "1.0-SNAPSHOT"
 
 repositories{
 	mavenCentral()
- 	mavenRepo(urls: "http://joccistestserver:15000/artifactory/ThirdParty").setSnapshotTimeout(0);
-	mavenRepo(urls: "http://maven.svnkit.com/maven2").setSnapshotTimeout(0);
+	mavenRepo(urls: "http://maven.svnkit.com/maven2");
 
 }
 

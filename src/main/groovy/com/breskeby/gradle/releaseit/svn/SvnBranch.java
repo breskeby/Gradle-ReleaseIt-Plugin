@@ -16,6 +16,16 @@ public class SvnBranch extends SvnTask{
 
 	String source;
 	String target;
+	String message = "Create branch";
+	
+	public void setMessage(String message){
+		this.message = message;
+	}
+	
+	public String getMessage(){
+		return message;
+	}
+	
 	
 	public String getSource() {
 		return source;
@@ -45,7 +55,7 @@ public class SvnBranch extends SvnTask{
 		    
 		    SVNCopySource copySource = new SVNCopySource(SVNRevision.HEAD, SVNRevision.HEAD, srcURL); 
 		    client.doCopy(new SVNCopySource[] {copySource}, dstURL, 
-		    		        false, false, true, "branching from [ " + source+ " ] to [ " + target +" ]", null); 
+		    		        false, false, true, message, null); 
 		} catch (SVNException e) {
 			throw(new BuildException(e.getMessage(), e));
 		}
