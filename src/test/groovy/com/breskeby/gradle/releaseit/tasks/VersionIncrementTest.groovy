@@ -66,7 +66,7 @@ public class VersionIncrementTest {
 		assert "2.0" == cut.applyPattern("1.0.0", "1.0");
 	}
 
-	@Test public void testWithBufixApplyPattern(){
+	@Test public void testWithBugfixApplyPattern(){
 		assert "1.1.0" == cut.applyPattern("1.0.0", "0.1.0");
 		assert "1.0.0" == cut.applyPattern("1.0.0", "0.0.0");
 		assert "2.0.0" == cut.applyPattern("1.0.0", "1.0.0");
