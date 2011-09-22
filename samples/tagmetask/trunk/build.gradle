@@ -1,0 +1,22 @@
+buildscript{
+	repositories{
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies{
+		classpath "com.breskeby.gradle:ReleaseIt:1.0-SNAPSHOT"
+	}
+}
+
+apply plugin:'ReleaseIt'
+
+import org.gradle.api.tasks.Input;
+import com.breskeby.gradle.releaseit.svn.*
+import com.breskeby.gradle.releaseit.tasks.VersionIncrement
+
+
+task tag(type: TagMe){
+	tagName = "1st Tag"
+	userName = "harry"
+	userPassword = "harryssecret"
+}
