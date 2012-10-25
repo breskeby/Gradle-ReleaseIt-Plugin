@@ -11,6 +11,7 @@ repositories{
 
 }
 
+println "TERM: "+ System.getenv("TERM")
 dependencies {
 	groovy localGroovy()
 	compile gradleApi()
@@ -18,5 +19,5 @@ dependencies {
 	
 	testCompile "junit:junit:4.8.2"
 	
-	testCompile "org.spockframework:spock-core:0.5-groovy-1.7"
+	testCompile "org.spockframework:spock-core:0.6-groovy-1.8"
 }
