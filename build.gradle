@@ -8,10 +8,8 @@ version = "1.0-SNAPSHOT"
 repositories{
 	mavenCentral()
 	mavenRepo url: "http://maven.svnkit.com/maven2"
-
 }
 
-println "TERM: "+ System.getenv("TERM")
 dependencies {
 	groovy localGroovy()
 	compile gradleApi()
@@ -21,3 +19,11 @@ dependencies {
 	
 	testCompile "org.spockframework:spock-core:0.6-groovy-1.8"
 }
+
+task printConsole << {
+	println "#########################################"
+	println "		TERM " + System.getenv("TERM")
+	println "#########################################"
+}
+
+check.dependsOn printConsole
