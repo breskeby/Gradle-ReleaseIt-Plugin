@@ -1,5 +1,6 @@
 language: groovy
-script: ./gradlew check -x test
+script:
+  - TERM=dumb ./gradlew -x test
 jdk:
   - oraclejdk7
   - openjdk7
