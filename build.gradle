@@ -1,9 +1,22 @@
 apply plugin:'groovy'
+
+buildscript {
+        repositories {
+            maven { url 'http://jcenter.bintray.com' }
+        }
+        dependencies {
+            classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+        }
+    }
+    apply plugin: 'bintray'
+
+
 apply plugin:'maven'
 apply plugin:'idea'
+apply plugin: 'maven-publish'
+group = "com.breskeby.gradle.releaseit"
 
-group = "com.breskeby.gradle.plugins"
-version = "1.1-SNAPSHOT"
+version = "1.0.1-SNAPSHOT"
 
 repositories{
 	mavenCentral()
@@ -16,8 +29,29 @@ dependencies {
 	compile localGroovy()
 	compile gradleApi()
 	compile "org.tmatesoft.svnkit:svnkit:1.3.5"
-	
 	testCompile "junit:junit:4.8.2"
-	
 	testCompile "org.spockframework:spock-core:0.6-groovy-1.8"
 }
+
+
+publishing {
+    publications {
+        mavenCustom(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+bintray {
+       user = 'breskeby'
+       //key = 'somekey'
+       publications = ['mavenCustom'] // When uploading Maven-based publication files
+       pkg {
+           repo = 'gradle-plugins'
+           name = "com.breskeby.gradle.releaseit" // why can't project.group not be referenced
+           desc = 'a gradle plugin for dealing with releases'
+           licenses = ['Apache-2.0']
+           labels = ['gradle', 'plugins']
+       }
+       dryRun = false // whether to run this as dry-run, without deploying
+   }
