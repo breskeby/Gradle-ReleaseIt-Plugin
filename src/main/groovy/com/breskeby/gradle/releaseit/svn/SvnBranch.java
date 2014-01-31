@@ -12,6 +12,7 @@ import org.tmatesoft.svn.core.wc.SVNCopyClient;
 import org.tmatesoft.svn.core.wc.SVNCopySource;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 
+//TODO can be abstracted with a common SvnCopy Task
 public class SvnBranch extends SvnTask{
 
 	String source;

@@ -1,6 +1,5 @@
-package com.breskeby.gradle.releaseit.svn;
+package com.breskeby.gradle.releaseit.svn
 
-import org.gradle.api.Project
 import org.tmatesoft.svn.core.SVNURL;
 
 
@@ -8,13 +7,13 @@ import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
-class TagMeTest extends Specification{
+class SvnTagTest extends Specification{
 
-	TagMe cut;
+	SvnTag cut;
 	
 	def setup(){
 		Project testProject = ProjectBuilder.builder().build()
-		cut = testProject.task("testTagMeTask", type:TagMe)
+		cut = testProject.task("testTagMeTask", type:SvnTag)
 	}
 	
 	def "test getRootURL with on default svn layout"(){

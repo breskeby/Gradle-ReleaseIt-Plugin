@@ -14,41 +14,34 @@ import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
 
-class TagMe extends SvnTask{
+//TODO can be abstracted with a SvnCopy Task
+class SvnTag extends SvnTask{
 
 	private static String TRUNK = "/TRUNK";
 	private static String BRANCHES = "/BRANCHES";
 	private static String TAGS = "/TAGS";
 
-	@Input SVNURL srcURL;
-	@Input SVNRevision revision;
 	@Input String message = "Tagging with gradle"
 	@Input String tagName;
 	
 	private SVNClientManager clientManager
 	
-	public TagMe(){
-		SVNRepositoryFactoryImpl.setup();
-		ISVNAuthenticationManager authManager = new BasicAuthenticationManager( userName , userPassword );
-		clientManager = SVNClientManager.newInstance(null, authManager);
-		SVNWCClient wcClient = clientManager.getWCClient();
-		SVNInfo doInfo = wcClient.doInfo(getProject().file("."), SVNRevision.WORKING);
-		srcURL = doInfo.getURL();
-		revision = doInfo.getRevision();
+	public SvnTag(){
 	}
 	
 	@TaskAction public void tagit() throws SVNException{
-		SVNURL removePathTail = getRootURL(srcURL);
-		SVNURL dstURL = calculateDestURL(srcURL);
+        SVNRepositoryFactoryImpl.setup();
+        ISVNAuthenticationManager authManager = new BasicAuthenticationManager( userName , userPassword );
+        clientManager = SVNClientManager.newInstance(null, authManager);
+        SVNWCClient wcClient = clientManager.getWCClient();
+        SVNInfo doInfo = wcClient.doInfo(getProject().file("."), SVNRevision.WORKING);
+        SVNURL srcURL = doInfo.getURL();
+        SVNRevision revision = doInfo.getRevision();
 
-		//we need authentication here
-		ISVNAuthenticationManager authManager = new BasicAuthenticationManager( userName , userPassword );
-		SVNClientManager clientManager = SVNClientManager.newInstance(null, authManager);
-		
+		SVNURL dstURL = calculateDestURL(srcURL);
 		SVNCopyClient copyClient = clientManager.getCopyClient();
 		SVNCopySource[] copySources = [new SVNCopySource(revision, revision, srcURL)] as SVNCopySource[]; 
-		    copyClient.doCopy(copySources, dstURL, 
-		    		        false, false, true, message, null); 
+		copyClient.doCopy(copySources, dstURL, false, false, true, message, null);
 	}
 
 	SVNURL calculateDestURL(SVNURL sourceURL) {
