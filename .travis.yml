@@ -1,6 +1,6 @@
 language: groovy
 script:
-  - TERM=dumb ./gradlew -x test
+  - TERM=dumb ./gradlew assemble -x test
 
 jdk:
   - openjdk6
