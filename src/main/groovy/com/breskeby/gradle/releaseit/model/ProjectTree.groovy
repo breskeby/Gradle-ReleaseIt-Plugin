@@ -7,6 +7,7 @@ class ProjectTree {
 		this.name = name;
 	}
 	
+	
 	String svnRootUrl
 	def localPath
 }
